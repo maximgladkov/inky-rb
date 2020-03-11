@@ -51,7 +51,7 @@ module Inky
       parse_cmd = str =~ /<html/i ? :parse : :fragment
       html = Nokogiri::HTML.public_send(parse_cmd, str)
       transform_doc(html)
-      string = html.to_html
+      string = html.text
       string.gsub!(INTERIM_TH_TAG_REGEX, 'th')
       ::Inky::Core.re_inject_raws(string, raws)
     end
