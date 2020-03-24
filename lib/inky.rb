@@ -36,7 +36,6 @@ module Inky
       self.components = DEFAULT_COMPONENTS
         .merge(options[:components] || ::Inky.configuration.components)
         .transform_values { |component_class| component_class.new(self) }
-        .with_indifferent_access
 
       self.column_count = options[:column_count] || ::Inky.configuration.column_count
       self.component_tags = components.keys
@@ -51,7 +50,7 @@ module Inky
       parse_cmd = str =~ /<html/i ? :parse : :fragment
       html = Nokogiri::HTML.public_send(parse_cmd, str)
       transform_doc(html)
-      string = html.text
+      string = html.to_html
       string.gsub!(INTERIM_TH_TAG_REGEX, 'th')
       ::Inky::Core.re_inject_raws(string, raws)
     end

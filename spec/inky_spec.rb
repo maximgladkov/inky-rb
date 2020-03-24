@@ -51,4 +51,15 @@ RSpec.describe "Inky#release_the_kraken" do
     expect_same_html(output, expected)
     output.encoding.name.should == 'US-ASCII'
   end
+
+  it "works with special characters in attributes" do
+    input = '<a href="[[special_tag]]">Link</a>'
+    expected = <<-HTML
+      <a href="[[special_tag]]">Link</a>
+    HTML
+
+    output = ::Inky::Core.new.release_the_kraken(input)
+
+    expect_same_html(output, expected)
+  end
 end
